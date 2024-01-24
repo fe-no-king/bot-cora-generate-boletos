@@ -28,7 +28,7 @@ def generate_due_dates(data_start, data_end, day_month, frequency):
 
         # Verifica se a data de vencimento está dentro do intervalo
         if due_date <= end_date:
-            due_dates.append(due_date.strftime('%d-%m-%Y'))
+            due_dates.append(due_date.strftime('%d/%m/%Y'))
 
         # Incrementa a data de acordo com a frequência
         current_date = add_months(current_date, frequency)

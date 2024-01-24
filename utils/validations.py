@@ -34,3 +34,7 @@ def validate_frequency(frequency):
     
     print(f'Frequência invalida {frequency}, deve ser 1, 2, 3, 4, 6')
     return None
+
+def convert_dot_to_comma(number):
+    formatted_number = "{:.2f}".format(float(number))
+    return formatted_number.replace('.', ',')

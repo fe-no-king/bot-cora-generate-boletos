@@ -1,2 +1,6 @@
 .venv
 list-data.xlsx
+myenv
+clients/*
+*.pyc
+__pycache__/*

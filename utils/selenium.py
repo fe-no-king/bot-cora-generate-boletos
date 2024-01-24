@@ -1,22 +1,57 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver.common.keys import Keys
 import time
 import pandas as pd
 
 def init_driver():
-    driver = webdriver.Firefox()
-    driver.get("https://app.cora.com.br/emitir-cobranca/modelo-de-boleto/contatos")
-    time.sleep(15)
+
+    options = webdriver.ChromeOptions()
+    prefs = {
+        "download.default_directory": "/home/programador/Documents/Projects/bot-cora/tmp",
+        "download.prompt_for_download": False,
+        "download.directory_upgrade": True,
+        "plugins.always_open_pdf_externally": True
+    }
+    options.add_experimental_option("prefs", prefs)
+    driver = webdriver.Chrome(options=options)
+    driver.get("https://app.cora.com.br/dashboard")
+    time.sleep(10)
     return driver
 
-def load_data(file_path):
-    return pd.read_excel(file_path).head()
-
 def search_and_click(driver, search_text):
+
     search_contacts = driver.find_element(By.ID, 'searchContacts')
     search_contacts.send_keys(search_text)
-    time.sleep(5)
-    elementos_li = driver.find_elements(By.CSS_SELECTOR, 'ul.list > li')
-    if len(elementos_li) > 2:
-        elementos_li[1].click()
-    return len(elementos_li)
+    time.sleep(2)
+    elementos_ul = driver.find_elements(By.CSS_SELECTOR, 'ul.list')
+
+    if len(elementos_ul) > 1:
+        first_li = elementos_ul[1].find_element(By.CSS_SELECTOR, 'li')
+        first_li.click()
+    
+    time.sleep(2)
+
+
+def click_element(driver, path):
+    
+    button = driver.find_element(By.XPATH, path)
+    button.click()
+    time.sleep(2)
+
+def set_bankslip_amount(driver, amount):
+
+    amount_field = driver.find_element(By.ID, 'emissionAmount')
+    amount_field.clear()
+    amount_field.send_keys(amount)
+
+    js_script = f"document.getElementById('emissionAmount').value = '{amount}';"
+    driver.execute_script(js_script)
+
+    time.sleep(2)
+
+def set_select_due_date(driver, date):
+
+    js_script = f"document.querySelector('#root > div > main > div > div > div:nth-child(3) > div > div > div > div > div > input').value = '{date}';"
+    driver.execute_script(js_script)
+    time.sleep(2)
