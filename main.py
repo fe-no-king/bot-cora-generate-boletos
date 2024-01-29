@@ -65,6 +65,9 @@ if len(data_list) > 0:
 
                     click_element(driver, '/html/body/div[1]/div/main/div/div/div[9]/button[1]')
                     click_element(driver, '/html/body/div[1]/div/main/footer/div/button[2]')
+
+                    time.sleep(2)
+
                     click_element(driver, '/html/body/div[1]/div/main/div[1]/div/div[5]/button')
 
                     move_files('tmp', path)     

@@ -52,6 +52,52 @@ def set_bankslip_amount(driver, amount):
 
 def set_select_due_date(driver, date):
 
-    js_script = f"document.querySelector('#root > div > main > div > div > div:nth-child(3) > div > div > div > div > div > input').value = '{date}';"
+    click_element(driver, '/html/body/div[1]/div/main/div/div/div[2]/div/div[1]/div/div/div/input')
+
+    js_script = """
+
+    function converteData(date) {
+        const meses = [
+            "janeiro", "fevereiro", "março", "abril", "maio", "junho",
+            "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"
+        ];
+
+        const partes = date.split("/");
+        const mes = partes[1];
+        const ano = partes[2];
+
+        const nomeMes = meses[parseInt(mes) - 1];
+
+        return nomeMes+" "+ano;
+    }
+
+    function next_verify_date(count, date_text, date) {
+    
+        count++;
+
+        let current_text = document.getElementsByClassName('react-datepicker__current-month')[0].textContent;
+
+        if(current_text == undefined || count == 20){
+            return 0;
+        }
+
+        if(current_text == date_text){
+
+            let day = date.split("/")[0];
+            document.getElementsByClassName("react-datepicker__day--0"+day)[0].click();
+            return 0;
+        }
+        
+        document.getElementsByClassName('react-datepicker__navigation--next')[0].click();
+
+        setTimeout(() => {
+            next_verify_date(count, date_text, date);
+        }, 500);
+    }
+
+    next_verify_date(0, converteData('"""+date+"""'), '"""+date+"""');
+
+    """
+    
     driver.execute_script(js_script)
-    time.sleep(2)
+    time.sleep(6)
