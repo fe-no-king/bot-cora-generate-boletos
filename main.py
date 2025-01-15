@@ -14,9 +14,12 @@ print(welcome_ascii())
 # Carrega a lista de dados
 data_list = load_dict_list('list-data.xlsx')
 
+default_data_start = "02-2025"
+default_data_end = "03-2025"
+
 # Solicita as datas de início e fim
-data_start = input('Digite a data inicio m-Y: ')
-data_end = input('Digite a data final m-Y: ')
+data_start = input(f'Digite a data inicio m-Y [{default_data_start}]: ') or default_data_start
+data_end = input(f'Digite a data final m-Y [{default_data_end}]: ') or default_data_end
 
 driver = init_driver()
 
@@ -47,11 +50,11 @@ if len(data_list) > 0:
 
                     path = f'clients/{cnpj}'
 
-                    click_element(driver, '/html/body/div[1]/div/main/div/div[1]/div[2]/div[2]/div[2]/button')
-                    click_element(driver, '/html/body/div[1]/div/main/div/ul/div[2]/div')
+                    click_element(driver, '/html/body/div[1]/div/main/div/div/div[2]/div[2]/div[2]/button')
+                    click_element(driver, '/html/body/div[1]/div/main/div/ul/div[2]')
 
                     click_element(driver, '/html/body/div[1]/div/main/div/div/div')
-                    click_element(driver, '/html/body/div[1]/div/main/div/div[2]/div[8]/button[1]')
+                    click_element(driver, '/html/body/div[1]/div/main/footer/div/button[2]')
 
                     search_and_click(driver, cnpj)
 
@@ -63,10 +66,13 @@ if len(data_list) > 0:
                     # set date
                     set_select_due_date(driver, date)
 
-                    click_element(driver, '/html/body/div[1]/div/main/div/div/div[9]/button[1]')
+                    time.sleep(2)
+
                     click_element(driver, '/html/body/div[1]/div/main/footer/div/button[2]')
 
                     time.sleep(2)
+
+                    click_element(driver, '/html/body/div[1]/div/main/footer/div/button[2]')
 
                     click_element(driver, '/html/body/div[1]/div/main/div[1]/div/div[5]/button')
 

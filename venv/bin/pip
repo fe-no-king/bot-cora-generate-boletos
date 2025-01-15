@@ -1,4 +1,4 @@
-#!/home/programador/Documents/Project/bot-cora/venv/bin/python
+#!/home/programador/Documents/Projects/bot-cora/venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
